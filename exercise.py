@@ -1,30 +1,24 @@
-import numpy as np
+import os
+import tweepy as tw
+import pandas as pd
 
-def convert_and_print(c):
-    f = c*1.8 + 32
-    if f > 75:
-        print('Too hot!')
-    else:
-        print((c,f))
+consumer_key= 'XBuKrGqxjQBWp2XOcdwGZLzcg'
+consumer_secret= 'tVdKxqrU16TJHUcEhQZnofAt6rSSuk7oCss8yjnJw6KRGUj6SU'
+access_token= '370140893-87zTUu8DCcMXzeGJ2z7gQwwRXIJXlZuRm2POa7kv'
+access_token_secret= '4D4H7iyols9M8XVy8nbo0K0YqKPsM5K3YJLPv9MKycNbT'
 
-def primeNumber(x):
-    prime = False
-    primelist = [x for x in range(2,100) if all(x%y != 0 for y in range(2,x))]
-    if x in primelist:
-        prime=True
-    print(primelist)
+auth = tw.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tw.API(auth, wait_on_rate_limit=True)
 
-def array10x10():
-    i = np.zeros((10,10))
-    i[1:-1, 1:-1] = 1
-    print(i)
-
-
-
-def main():
-    convert_and_print(50)
-    convert_and_print(20)
-    primeNumber(5)
-    array10x10()
-if __name__ == "__main__":
-    main()
+trends1 = api.trends_place(1) # from the end of your code
+# trends1 is a list with only one element in it, which is a 
+# dict which we'll put in data.
+data = trends1[0] 
+# grab the trends
+trends = data['trends']
+# grab the name from each trend
+names = [trend['name'] for trend in trends]
+# put all the names together with a ' ' separating them
+trendsName = ' '.join(names)
+print(trendsName)
