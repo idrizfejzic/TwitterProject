@@ -22,3 +22,5 @@ names = [trend['name'] for trend in trends]
 # put all the names together with a ' ' separating them
 trendsName = ' '.join(names)
 print(trendsName)
+
+print("idriz")
